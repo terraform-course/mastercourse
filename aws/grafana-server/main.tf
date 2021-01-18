@@ -17,16 +17,25 @@ data "aws_ami" "amazon_linux_2" {
 resource "aws_instance" "grafana_server" {
   ami           = data.aws_ami.amazon_linux_2.id
   instance_type = "t3.micro"
+  iam_instance_profile = aws_iam_instance_profile.grafana_server.name
+  monitoring = true
 
   tags = {
     Name = "Grafana Server"
   }
 
-  user_data = file("grafana_server.sh")
+  user_data = data.template_file.grafana_server.rendered
 
   security_groups = [
     aws_security_group.grafana_server.name
   ]
+}
+
+data "template_file" "grafana_server" {
+  template = file("${path.module}/grafana_server.tpl")
+  vars = {
+    grafana_password = random_password.password.result
+  }
 }
 
 data "aws_vpc" "default" {
@@ -56,4 +65,10 @@ resource "aws_security_group" "grafana_server" {
   tags = {
     Name = "grafana_server"
   }
+}
+
+resource "random_password" "password" {
+  length = 16
+  special = true
+  override_special = "_%"
 }
