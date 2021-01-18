@@ -14,13 +14,13 @@ sslverify=1
 sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 EOF
 
+yum install grafana -y
+
 cat <<EOF >> /etc/grafana/grafana.ini
 [security]
 admin_user = admin
 admin_password = "${grafana_password}"
 EOF
-
-yum install grafana -y
 
 systemctl daemon-reload
 systemctl start grafana-server

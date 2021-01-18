@@ -19,6 +19,7 @@ resource "aws_instance" "grafana_server" {
   instance_type = "t3.micro"
   iam_instance_profile = aws_iam_instance_profile.grafana_server.name
   monitoring = true
+  key_name = "terraformcourse"
 
   tags = {
     Name = "Grafana Server"
@@ -51,6 +52,14 @@ resource "aws_security_group" "grafana_server" {
     description = "HTTP on port 3000 from everywhere"
     from_port   = 3000
     to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SSH from everywhere"
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
