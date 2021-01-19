@@ -16,7 +16,7 @@ data "aws_ami" "amazon_linux_2" {
 
 resource "aws_instance" "grafana_server" {
   ami           = data.aws_ami.amazon_linux_2.id
-  instance_type = "t3.micro"
+  instance_type = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.grafana_server.name
   monitoring = true
   key_name = "terraformcourse"

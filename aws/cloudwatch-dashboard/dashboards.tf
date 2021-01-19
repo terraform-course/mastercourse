@@ -1,6 +1,6 @@
 provider "grafana" {
-  url    = "http://${aws_instance.grafana_server.public_ip}:3000"
-  auth   = "admin:${random_password.password.result}"
+  url    = "http://${var.grafana_ip}:3000"
+  auth   = "admin:${var.grafana_password}"
 }
 
 resource "grafana_data_source" "cloudwatch" {
@@ -13,5 +13,5 @@ resource "grafana_data_source" "cloudwatch" {
 }
 
 resource "grafana_dashboard" "billing" {
-  config_json = file("billing-dashboard.json")
+  config_json = file("${path.module}/billing-dashboard.json")
 }
