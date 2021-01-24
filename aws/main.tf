@@ -12,11 +12,12 @@ module "cloudwatch" {
 }
 
 terraform {
-  backend "s3" {
-    bucket = "terraform-course-example-bucket"
-    key    = "infrastructure/monitoring/grafana/terraform.tfstate"
-    region = "eu-west-1"
-    dynamodb_table = "terraform-state"
+  backend "remote" {
+    organization = "terraform-course2021"
+
+    workspaces {
+      name = "mastercourse"
+    }
   }
 }
 
