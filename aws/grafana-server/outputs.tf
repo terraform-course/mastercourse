@@ -1,5 +1,5 @@
-output "ip" {
-  value = aws_instance.grafana_server.public_ip
+output "alb_dns" {
+  value = aws_lb.grafana.dns_name
 }
 
 output "password" {

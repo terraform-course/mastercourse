@@ -20,6 +20,7 @@ resource "aws_instance" "grafana_server" {
   iam_instance_profile = aws_iam_instance_profile.grafana_server.name
   monitoring = true
   key_name = "terraformcourse"
+  associate_public_ip_address = false
 
   tags = {
     Name = "Grafana Server"
@@ -41,6 +42,10 @@ data "template_file" "grafana_server" {
 
 data "aws_vpc" "default" {
   default = true
+}
+
+data "aws_subnet_ids" "default" {
+  vpc_id = data.aws_vpc.default.id
 }
 
 resource "aws_security_group" "grafana_server" {

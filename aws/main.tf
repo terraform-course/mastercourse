@@ -4,13 +4,6 @@ module "grafana" {
   instance_type = "t3.micro"
 }
 
-module "cloudwatch" {
-  source = "./cloudwatch-dashboard"
-
-  grafana_ip = module.grafana.ip
-  grafana_password = module.grafana.password
-}
-
 terraform {
   backend "remote" {
     organization = "terraform-course2021"
